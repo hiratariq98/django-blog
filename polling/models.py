@@ -5,6 +5,7 @@ class Poll(models.Model):
     """
     Poll cLass
     """
+
     title = models.CharField(max_length=128)
     text = models.TextField(blank=True)
     score = models.IntegerField(default=0)
