@@ -1,8 +1,11 @@
 import os
 import dj_database_url
+from pathlib import Path
 
 from .settings import *
 
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 DATABASES = {
     "default": dj_database_url.config(
         default="sqlite:///" + os.path.join(BASE_DIR, "db.sqlite3")
@@ -12,7 +15,18 @@ DATABASES = {
 DEBUG = False
 TEMPLATE_DEBUG = False
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-SECRET_KEY = 'KJQs22SsqyON2pg4jGyep0J52sWxv98l'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 ALLOWED_HOSTS = ["*"]
 
-MIDDLEWARE = ("whitenoise.middleware.WhiteNoiseMiddleware" * MIDDLEWARE,)
+MIDDLEWARE = [
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # Correctly added
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+]
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
