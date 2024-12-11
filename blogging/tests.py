@@ -50,7 +50,6 @@ class FrontEndTestCase(TestCase):
         resp = self.client.get("/blogging/")
         resp_text = resp.content.decode(resp.charset)
         self.assertTrue("My Cool Heroku Blog Posts" in resp_text)
-        self.assertTrue("My Cool Blog Posts" in resp_text)
         for count in range(1, 11):
             title = f"Post {count} Title"
             if count < 6:
